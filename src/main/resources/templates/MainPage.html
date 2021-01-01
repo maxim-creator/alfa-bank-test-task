@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https//thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form method="post" th:action="@{/rate/{id}(id=${currentRates.getS()})}" th:object="${currentRates}">
+        <select th:field="*{s}">
+            <option th:each="rate:${currentRates.values}" th:value="${rate}" th:text="${rate}" ></option>
+        </select>
+    <input type="submit" value="проверить курс">
+
+</form>
+
+</body>
+</html>
