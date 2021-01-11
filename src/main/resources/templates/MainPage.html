@@ -6,7 +6,7 @@
 </head>
 <body>
 
-<form method="post" th:action="@{/rate(id=${key})}" th:object="${currentRates}">
+<form method="post" th:action="@{/rate}" th:object="${currentRates}">
         <select th:field="*{s}" id="key" >
             <option th:each="rate:${currentRates.values}" th:value="${rate}" th:text="${rate}" ></option>
         </select>

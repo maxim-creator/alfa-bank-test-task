@@ -1,8 +1,10 @@
 package com.max.alfabanktesttask.controllers;
 
+import com.max.alfabanktesttask.TypeTester;
 import com.max.alfabanktesttask.rates.CurrentExchangeRate;
 import com.max.alfabanktesttask.MyObject;
 import com.max.alfabanktesttask.rates.YesterdayExchangeRate;
+import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 @Controller
@@ -43,7 +46,8 @@ public class MainController {
         LinkedHashMap<String, Double> values = (LinkedHashMap<String, Double>) currentExchangeRate.getCurrentRate().get("rates");
         LinkedHashMap<String, Double> YesterdayValues = (LinkedHashMap<String, Double>) yesterdayExchangeRate.getYesterdayRate().get("rates");
 
-        if(values.get(myObject.getS()) > YesterdayValues.get(myObject.getS()))
+
+        if(values.get(myObject.getS()) >= YesterdayValues.get(myObject.getS()))
             return "rich";
         else
             return "broke";
