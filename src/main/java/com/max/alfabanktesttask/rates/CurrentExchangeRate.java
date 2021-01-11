@@ -1,4 +1,4 @@
-package com.max.alfabanktesttask;
+package com.max.alfabanktesttask.rates;
 
 import lombok.Data;
 import lombok.Getter;

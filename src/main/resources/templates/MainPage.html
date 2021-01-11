@@ -6,8 +6,8 @@
 </head>
 <body>
 
-<form method="post" th:action="@{/rate/{id}(id=${currentRates.getS()})}" th:object="${currentRates}">
-        <select th:field="*{s}">
+<form method="post" th:action="@{/rate(id=${key})}" th:object="${currentRates}">
+        <select th:field="*{s}" id="key" >
             <option th:each="rate:${currentRates.values}" th:value="${rate}" th:text="${rate}" ></option>
         </select>
     <input type="submit" value="проверить курс">
