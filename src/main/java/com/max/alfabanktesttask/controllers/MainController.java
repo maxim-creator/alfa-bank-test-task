@@ -1,10 +1,9 @@
 package com.max.alfabanktesttask.controllers;
 
-import com.max.alfabanktesttask.TypeTester;
 import com.max.alfabanktesttask.rates.CurrentExchangeRate;
-import com.max.alfabanktesttask.MyObject;
+import com.max.alfabanktesttask.StringWrapper;
+import com.max.alfabanktesttask.MapConverter;
 import com.max.alfabanktesttask.rates.YesterdayExchangeRate;
-import lombok.val;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -12,8 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -23,6 +20,7 @@ import java.util.Map;
 public class MainController {
     private final CurrentExchangeRate currentExchangeRate;
     private final YesterdayExchangeRate yesterdayExchangeRate;
+    private MapConverter mapConverter = new MapConverter();
 
 
     @Autowired
@@ -35,19 +33,17 @@ public class MainController {
     @GetMapping
     public String mainPage(Model model){
         LinkedHashMap<String, Double> values = (LinkedHashMap<String, Double>) currentExchangeRate.getCurrentRate().get("rates");
-        MyObject myObject = new MyObject(new ArrayList<>(values.keySet()));
-        model.addAttribute("currentRates", myObject);
+        model.addAttribute("stringWrapper", new StringWrapper());
+        model.addAttribute("currencies", new ArrayList<>(values.keySet()));
         return "MainPage";
     }
 
-    @PostMapping("/rate")
-    public String currency(@ModelAttribute("currentRates")MyObject myObject) {
+    @PostMapping("/showGif")
+    public String currency(@ModelAttribute("stringWrapper") StringWrapper stringWrapper) {
 
-        LinkedHashMap<String, Double> values = (LinkedHashMap<String, Double>) currentExchangeRate.getCurrentRate().get("rates");
-        LinkedHashMap<String, Double> YesterdayValues = (LinkedHashMap<String, Double>) yesterdayExchangeRate.getYesterdayRate().get("rates");
-
-
-        if(values.get(myObject.getS()) >= YesterdayValues.get(myObject.getS()))
+        Map<String, Double> values = mapConverter.toStringDoubleMap((Map<String, ? extends Comparable<?>>) currentExchangeRate.getCurrentRate().get("rates"));
+        Map<String, Double> YesterdayValues = mapConverter.toStringDoubleMap((Map<String, ? extends Comparable<?>>) yesterdayExchangeRate.getYesterdayRate().get("rates"));
+        if(values.get(stringWrapper.getString()) >= YesterdayValues.get(stringWrapper.getString()))
             return "rich";
         else
             return "broke";

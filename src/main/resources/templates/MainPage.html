@@ -6,11 +6,11 @@
 </head>
 <body>
 
-<form method="post" th:action="@{/rate}" th:object="${currentRates}">
-        <select th:field="*{s}" id="key" >
-            <option th:each="rate:${currentRates.values}" th:value="${rate}" th:text="${rate}" ></option>
+<form method="post" th:object="${stringWrapper}" th:action="@{/showGif}">
+        <select th:field="*{string}" id="key">
+            <option th:each="currency:${currencies}" th:value="${currency}" th:text="${currency}" ></option>
         </select>
-    <input type="submit" value="проверить курс">
+    <input type="submit" value="проверить курс" >
 
 </form>
 
