@@ -3,6 +3,8 @@ package com.max.alfabanktesttask.controllers;
 import com.max.alfabanktesttask.rates.CurrentExchangeRate;
 import com.max.alfabanktesttask.StringWrapper;
 import com.max.alfabanktesttask.MapConverter;
+import com.max.alfabanktesttask.rates.RatesService;
+import com.max.alfabanktesttask.rates.YesterdayDate;
 import com.max.alfabanktesttask.rates.YesterdayExchangeRate;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -18,15 +21,17 @@ import java.util.Map;
 
 @Controller
 public class MainController {
-    private final CurrentExchangeRate currentExchangeRate;
-    private final YesterdayExchangeRate yesterdayExchangeRate;
-    private MapConverter mapConverter = new MapConverter();
+    private CurrentExchangeRate currentExchangeRate;
+    private YesterdayExchangeRate yesterdayExchangeRate;
+    private RatesService ratesService;
+
 
 
     @Autowired
-    public MainController(CurrentExchangeRate currentExchangeRate, YesterdayExchangeRate yesterdayExchangeRate) {
+    public MainController(CurrentExchangeRate currentExchangeRate, YesterdayExchangeRate yesterdayExchangeRate, RatesService ratesService) {
         this.currentExchangeRate = currentExchangeRate;
         this.yesterdayExchangeRate = yesterdayExchangeRate;
+        this.ratesService = ratesService;
     }
 
 
@@ -41,9 +46,7 @@ public class MainController {
     @PostMapping("/showGif")
     public String currency(@ModelAttribute("stringWrapper") StringWrapper stringWrapper) {
 
-        Map<String, Double> values = mapConverter.toStringDoubleMap((Map<String, ? extends Comparable<?>>) currentExchangeRate.getCurrentRate().get("rates"));
-        Map<String, Double> YesterdayValues = mapConverter.toStringDoubleMap((Map<String, ? extends Comparable<?>>) yesterdayExchangeRate.getYesterdayRate().get("rates"));
-        if(values.get(stringWrapper.getString()) >= YesterdayValues.get(stringWrapper.getString()))
+        if(ratesService.isCurrentRateHigher(stringWrapper.getString()))
             return "rich";
         else
             return "broke";

@@ -1,7 +1,5 @@
 package com.max.alfabanktesttask.rates;
 
-import lombok.Data;
-import lombok.Getter;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
