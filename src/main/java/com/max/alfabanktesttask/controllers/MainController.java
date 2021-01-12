@@ -1,11 +1,9 @@
 package com.max.alfabanktesttask.controllers;
 
-import com.max.alfabanktesttask.rates.CurrentExchangeRate;
+import com.max.alfabanktesttask.servises.gifs.Gif;
+import com.max.alfabanktesttask.servises.rates.CurrentExchangeRate;
 import com.max.alfabanktesttask.StringWrapper;
-import com.max.alfabanktesttask.MapConverter;
-import com.max.alfabanktesttask.rates.RatesService;
-import com.max.alfabanktesttask.rates.YesterdayDate;
-import com.max.alfabanktesttask.rates.YesterdayExchangeRate;
+import com.max.alfabanktesttask.servises.rates.RatesService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -13,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,16 +19,16 @@ import java.util.Map;
 @Controller
 public class MainController {
     private CurrentExchangeRate currentExchangeRate;
-    private YesterdayExchangeRate yesterdayExchangeRate;
     private RatesService ratesService;
+    private Gif gif;
 
 
 
     @Autowired
-    public MainController(CurrentExchangeRate currentExchangeRate, YesterdayExchangeRate yesterdayExchangeRate, RatesService ratesService) {
+    public MainController(CurrentExchangeRate currentExchangeRate, RatesService ratesService, Gif gif) {
         this.currentExchangeRate = currentExchangeRate;
-        this.yesterdayExchangeRate = yesterdayExchangeRate;
         this.ratesService = ratesService;
+        this.gif=gif;
     }
 
 
@@ -44,13 +41,15 @@ public class MainController {
     }
 
     @PostMapping("/showGif")
-    public String currency(@ModelAttribute("stringWrapper") StringWrapper stringWrapper) {
-
+    public String currency(@ModelAttribute("stringWrapper") StringWrapper stringWrapper, Model model) {
+        Map<String, String> map;
         if(ratesService.isCurrentRateHigher(stringWrapper.getString()))
-            return "rich";
+            map = (Map) gif.getJson("rich").get("data");
         else
-            return "broke";
+            map = (Map) gif.getJson("broke").get("data");
 
+        model.addAttribute("gifUrl", map.get("image_original_url"));
+        return "showGifPage";
 
     }
 

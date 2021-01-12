@@ -1,4 +1,4 @@
-package com.max.alfabanktesttask.rates;
+package com.max.alfabanktesttask.servises.rates;
 
 import com.max.alfabanktesttask.MapConverter;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class RatesService {
     public boolean isCurrentRateHigher(String rate){
         Map<String, Double> values = mapConverter.toStringDoubleMap((Map<String, ? extends Comparable<?>>) currentExchangeRate.getCurrentRate().get("rates"));
         Map<String, Double> yesterdayValues = mapConverter.toStringDoubleMap((Map<String, ? extends Comparable<?>>) yesterdayExchangeRate.getYesterdayRate(YesterdayDate.getYesterdayDate()).get("rates"));
-        if(values.get(rate) > yesterdayValues.get(rate))
+        if(values.get(rate) >= yesterdayValues.get(rate))
             return true;
         else
             return false;

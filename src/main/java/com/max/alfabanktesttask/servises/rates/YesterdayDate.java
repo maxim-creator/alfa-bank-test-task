@@ -1,6 +1,5 @@
-package com.max.alfabanktesttask.rates;
+package com.max.alfabanktesttask.servises.rates;
 
-import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
