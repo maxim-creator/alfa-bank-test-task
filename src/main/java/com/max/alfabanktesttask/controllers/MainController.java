@@ -1,8 +1,9 @@
 package com.max.alfabanktesttask.controllers;
 
+import com.max.alfabanktesttask.StringWrapper;
 import com.max.alfabanktesttask.servises.gifs.Gif;
 import com.max.alfabanktesttask.servises.rates.CurrentExchangeRate;
-import com.max.alfabanktesttask.StringWrapper;
+
 import com.max.alfabanktesttask.servises.rates.RatesService;
 import org.springframework.beans.factory.annotation.Autowired;
 

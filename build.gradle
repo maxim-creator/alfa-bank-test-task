@@ -32,6 +32,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     compile 'javax.inject:javax.inject:1@jar'
+    testCompile "com.github.tomakehurst:wiremock-jre8:2.27.2"
 
 
 }
@@ -45,3 +46,4 @@ dependencyManagement {
 test {
     useJUnitPlatform()
 }
+
