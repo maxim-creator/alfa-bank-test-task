@@ -1,7 +1,8 @@
 package com.max.alfabanktesttask.controllers;
 
 import com.max.alfabanktesttask.StringWrapper;
-import com.max.alfabanktesttask.servises.gifs.Gif;
+import com.max.alfabanktesttask.servises.gifs.GifClient;
+import com.max.alfabanktesttask.servises.gifs.GifService;
 import com.max.alfabanktesttask.servises.rates.CurrentExchangeRate;
 
 import com.max.alfabanktesttask.servises.rates.RatesService;
@@ -21,15 +22,15 @@ import java.util.Map;
 public class MainController {
     private CurrentExchangeRate currentExchangeRate;
     private RatesService ratesService;
-    private Gif gif;
+    private GifClient gifClient;
 
 
 
     @Autowired
-    public MainController(CurrentExchangeRate currentExchangeRate, RatesService ratesService, Gif gif) {
+    public MainController(CurrentExchangeRate currentExchangeRate, RatesService ratesService,GifClient gifClient) {
         this.currentExchangeRate = currentExchangeRate;
         this.ratesService = ratesService;
-        this.gif=gif;
+        this.gifClient = gifClient;
     }
 
 
@@ -45,9 +46,9 @@ public class MainController {
     public String currency(@ModelAttribute("stringWrapper") StringWrapper stringWrapper, Model model) {
         Map<String, String> map;
         if(ratesService.isCurrentRateHigher(stringWrapper.getString()))
-            map = (Map) gif.getJson("rich").get("data");
+            map = (Map) gifClient.getRandomGif("rich").get("data");
         else
-            map = (Map) gif.getJson("broke").get("data");
+            map = (Map) gifClient.getRandomGif("broke").get("data");
 
         model.addAttribute("gifUrl", map.get("image_original_url"));
         return "showGifPage";
