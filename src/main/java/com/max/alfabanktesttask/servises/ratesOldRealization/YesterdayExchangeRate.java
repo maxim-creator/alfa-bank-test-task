@@ -1,4 +1,4 @@
-package com.max.alfabanktesttask.servises.rates;
+package com.max.alfabanktesttask.servises.ratesOldRealization;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

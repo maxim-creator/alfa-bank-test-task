@@ -1,4 +1,4 @@
-package com.max.alfabanktesttask.servises.rates;
+package com.max.alfabanktesttask.servises.ratesOldRealization;
 
 import com.max.alfabanktesttask.MapConverter;
 import lombok.Data;
